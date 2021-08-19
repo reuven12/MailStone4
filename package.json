@@ -1,0 +1,57 @@
+{
+  "name": "milestone3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build-ts && node dist/app",
+    "serve": "node dist/app",
+    "build-ts": "tsc",
+    "dev:ts": "nodemon src/app",
+    "lint": "eslint . --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reuven12/Milestone3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YoniZangolsaz/Milestone3/issues"
+  },
+  "homepage": "https://github.com/YoniZangolsaz/Milestone3#readme",
+  "dependencies": {
+    "@types/mongoose": "^5.11.97",
+    "body-parser": "^1.19.0",
+    "config.ts": "^1.0.0",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "isprime": "^0.0.2",
+    "mongoose": "^5.13.7",
+    "prime-num": "^2.0.1",
+    "prime-number": "^1.0.2",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.6.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2",
+    "ts-node": "^10.2.0",
+    "tslint-config-airbnb": "^5.11.2",
+    "typescript": "^3.9.10"
+  }
+}
