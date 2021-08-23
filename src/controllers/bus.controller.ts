@@ -62,18 +62,14 @@ router.delete('/delete/:line_number',async(req:Request,res:Response)=>{
 
 
 router.get('/getDistans/:line_number', async(req:Request,res:Response)=>{
-    // const numberLine=req.query.numberLine;
+    const numberLine:number=parseInt(req.query.numberLine as string);
     let numberStation1:number= parseInt (req.query.numberStation1 as string);
     const numberStation2:number=parseInt(req.query.numberStation2 as string);
-
-    const input:string=req.params.line_number;
-    const Input:number=parseInt (input);
-
 
 
     try{
         const getDistans=await BusesModel.aggregate([{$match: {
-            'line_number':Input
+            'line_number':numberLine
           }}, {$lookup: {
             from: 'stations',
             localField: 'stationsList',
@@ -101,7 +97,7 @@ router.get('/getDistans/:line_number', async(req:Request,res:Response)=>{
           
           let Station_X : number[] = [];
           Station_X.push(station_x1,station_x2)
-          console.log(Station_X);
+        //   console.log(Station_X);
           
           let station_y1:number;
           station_y1=numbers1[2];
@@ -110,7 +106,7 @@ router.get('/getDistans/:line_number', async(req:Request,res:Response)=>{
   
           let Station_Y : number[] = [];
           Station_Y.push(station_y1,station_y2)
-          console.log(Station_Y);
+        //   console.log(Station_Y);
 
           let speed: number [] =Object.values(Station1);
           let Speed:number;
