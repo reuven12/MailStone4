@@ -21,7 +21,10 @@ const busesSchema = new mongoose_1.default.Schema({
     speed: {
         type: Number
     },
-    List_station: [{
+    getDistans: {
+        type: String
+    },
+    stationsList: [{
             type: Number,
             ref: 'stations'
         }]

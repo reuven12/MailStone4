@@ -21,7 +21,7 @@ router.post('/createBus/', (req, res) => __awaiter(void 0, void 0, void 0, funct
         bus_color: req.body.bus_color,
         model: req.body.model,
         speed: req.body.speed,
-        List_station: req.body.List_station
+        stationsList: req.body.stationsList
     });
     try {
         const newBus = yield bus.save();
@@ -31,9 +31,9 @@ router.post('/createBus/', (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.status(400).json({ message: err.message });
     }
 }));
-router.get('/readBus/:line_number', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/readBus/:bus_color', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const readBus = yield bus_model_1.BusesModel.findOne({ line_number: req.params.line_number });
+        const readBus = yield bus_model_1.BusesModel.findOne({ bus_color: req.params.bus_color });
         res.send(readBus);
     }
     catch (err) {
@@ -49,14 +49,65 @@ router.get('/readBuses/', (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(500).json({ message: err.message });
     }
 }));
-router.patch('/updateBus/:update', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.patch('/updateBus/:line_number', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const filter = { line_number: req.params.line_number };
+    const update = { model: 2005 };
     try {
-        const update_bus = yield bus_model_1.BusesModel.findByIdAndUpdate({ line_number: 49, model: 1800 });
-        res.send(update_bus);
+        let update_bus = yield bus_model_1.BusesModel.updateOne(filter, update);
+        const a = update_bus = yield bus_model_1.BusesModel.findOne(filter);
+        res.send(a);
+    }
+    catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}));
+router.delete('/delete/:line_number', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const remove = yield bus_model_1.BusesModel.remove({ line_number: req.body.line_number });
+        res.send('Successfully deleted');
+    }
+    catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}));
+router.get('/getDistans/:line_number', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // const numberLine=req.query.numberLine;
+    let numberStation1 = parseInt(req.query.numberStation1);
+    const numberStation2 = parseInt(req.query.numberStation2);
+    const input = req.params.line_number;
+    const Input = parseInt(input);
+    try {
+        const getDistans = yield bus_model_1.BusesModel.aggregate([{ $match: {
+                    'line_number': Input
+                } }, { $lookup: {
+                    from: 'stations',
+                    localField: 'stationsList',
+                    foreignField: 'number_station',
+                    as: 'stations'
+                } }, { $unwind: {
+                    'path': '$stations'
+                } }, { $project: {
+                    'localStation-x': '$stations.position_X',
+                    'localStation-y': '$stations.position_Y'
+                } }]);
+        let Station1 = getDistans[numberStation1];
+        let Station2 = getDistans[numberStation2];
+        let numbers1 = Object.values(Station1);
+        let numbers2 = Object.values(Station2);
+        let station_Y1;
+        station_Y1 = numbers1[2];
+        let station_Y2;
+        station_Y2 = numbers2[2];
+        let Station_y;
+        Station_y.push(1);
+        //   console.log(station_Y);
+        console.log(station_Y1);
+        res.send(`num ${station_Y1}`);
     }
     catch (err) {
         res.status(500).json({ message: err.message });
     }
 }));
 exports.default = router;
+// const getDistans : IBus=await BusesModel.findOne({line_number:req.params.line_number}).lean().populate('stationsList','station_Name');
 //# sourceMappingURL=bus.controller.js.map

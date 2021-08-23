@@ -6,9 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build-ts && node dist/app",
-    "serve": "node dist/app",
     "build-ts": "tsc",
-    "dev:ts": "nodemon src/app",
+    "dev": "nodemon src/app.ts",
     "lint": "eslint . --ext .ts"
   },
   "repository": {

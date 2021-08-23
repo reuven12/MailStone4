@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const station_model_1 = require("../models/station.model");
 const express_1 = __importDefault(require("express"));
-const ruter = express_1.default.Router();
-ruter.post('/creatStation/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const router = express_1.default.Router();
+router.post('/creatStation/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const station = new station_model_1.StationsModel({
         station_Name: req.body.station_Name,
         number_station: req.body.number_station,
@@ -30,5 +30,44 @@ ruter.post('/creatStation/', (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(400).json({ message: err.message });
     }
 }));
-exports.default = ruter;
+router.get('/readStation/:number_station', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const readStation = yield station_model_1.StationsModel.findOne({ number_station: req.params.number_station });
+        res.send(readStation);
+    }
+    catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}));
+router.get('/readStations/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const readStations = yield station_model_1.StationsModel.find();
+        res.send(readStations);
+    }
+    catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}));
+router.patch('/updatestation/:number_station', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const filter = { number_station: req.params.number_station };
+    const update = { station_Name: 'giti' };
+    try {
+        let update_station = yield station_model_1.StationsModel.updateOne(filter, update);
+        const a = update_station = yield station_model_1.StationsModel.findOne(filter);
+        res.send(a);
+    }
+    catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}));
+router.delete('/delete/:number_station', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const remove = yield station_model_1.StationsModel.remove({ number_station: req.body.number_station });
+        res.send('Successfully deleted');
+    }
+    catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}));
+exports.default = router;
 //# sourceMappingURL=stations.contrroller.js.map

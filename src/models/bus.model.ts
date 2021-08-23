@@ -20,11 +20,14 @@ const busesSchema=new mongoose.Schema({
      speed:{
          type:Number
      },
-     List_station:[{
+     getDistans:{
+         type:String
+     },
+     stationsList:[{
         type: Number,
         ref:'stations'
      }]
  },{versionKey: false});
 
 
-export const BusesModel=mongoose.model('buses',busesSchema)
+export const BusesModel = mongoose.model('buses',busesSchema);
