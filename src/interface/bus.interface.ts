@@ -1,9 +1,8 @@
-import  mongoose  from "mongoose";
-
+/* eslint-disable camelcase */
 export interface IBus {
-  line_number:Number,
-  bus_color:String,
-  speed:Number,
-  getDistans:Number|String,
-  stationsList:Number[]
-  }
+  line_number: Number;
+  bus_color: String;
+  speed: Number;
+  getDistans: Number | String;
+  stationsList: Number[];
+}
