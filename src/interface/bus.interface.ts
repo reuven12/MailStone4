@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export interface IBus {
   line_number: Number;
   bus_color: String;

@@ -11,6 +11,13 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': [
@@ -19,10 +26,11 @@ module.exports = {
         trailingComma: 'es5',
         singleQuote: true,
         semi: true,
-        camelcase: false,
-        'no-plusplus': false,
+        camelcase: 'off',
+        'no-plusplus': 'off',
       },
     ],
+    camelcase: 'off',
     'no-console': 0,
   },
 };

@@ -5,7 +5,6 @@
 /* eslint-disable radix */
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-shadow */
-/* eslint-disable camelcase */
 import { Request, Response } from 'express';
 import { BusesModel } from '../models/bus.model';
 import { IBus } from '../interface/bus.interface';

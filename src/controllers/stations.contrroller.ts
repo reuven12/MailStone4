@@ -1,7 +1,4 @@
-/* eslint-disable no-multi-assign */
-/* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-/* eslint-disable import/no-unresolved */
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { Request, Response } from 'express';
