@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable import/prefer-default-export */
+
 import mongoose from 'mongoose';
 
 const busesSchema = new mongoose.Schema(

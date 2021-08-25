@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/no-extraneous-dependencies */
 
 import { Request, Response } from 'express';
 import { StationsModel } from '../models/station.model';
@@ -19,8 +17,8 @@ export const postStation = async (req: Request, res: Response) => {
   });
 
   const station = new StationsModel({
-    station_Name: req.body.station_Name,
-    number_station: req.body.number_station,
+    stationName: req.body.station_Name,
+    stationNumber: req.body.number_station,
     position_X: req.body.position_X,
     position_Y: req.body.position_Y,
   });
@@ -75,13 +73,13 @@ export const update = async (req: Request, res: Response) => {
   let update_station: IStation = await StationsModel.updateOne(filter);
   console.log(update_station);
   const a = {
-    station_Name: req.body.station_Name,
-    number_station: req.body.number_station,
+    stationName: req.body.station_Name,
+    stationNumber: req.body.number_station,
     position_X: req.body.position_X,
     position_Y: req.body.position_Y,
   };
   const chck: any = req.body.number_station;
-  if (!num.includes(chck)) {
+  if (!num.includes(chck)){
     try {
       const Updated = (update_station = await StationsModel.findOne(a));
       return res.send(Updated);

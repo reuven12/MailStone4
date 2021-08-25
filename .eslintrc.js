@@ -26,11 +26,11 @@ module.exports = {
         trailingComma: 'es5',
         singleQuote: true,
         semi: true,
-        camelcase: 'off',
         'no-plusplus': 'off',
       },
     ],
     camelcase: 'off',
     'no-console': 0,
+    "ignoreNonDeclaration": true,
   },
 };

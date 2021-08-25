@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
 export interface IStation {
   stationName: String;
-  numberStation: Number;
+  stationNumber: Number;
   position_X: Number;
   position_Y: Number;
 }

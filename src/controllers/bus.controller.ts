@@ -1,10 +1,4 @@
-/* eslint-disable prefer-const */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable radix */
-/* eslint-disable no-multi-assign */
-/* eslint-disable no-shadow */
+
 import { Request, Response } from 'express';
 import { BusesModel } from '../models/bus.model';
 import { IBus } from '../interface/bus.interface';

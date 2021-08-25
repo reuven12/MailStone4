@@ -1,5 +1,4 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/no-extraneous-dependencies */
+
 import express from 'express';
 import * as stationsController from '../controllers/stations.contrroller';
 

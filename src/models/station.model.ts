@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const StationsSchema = new mongoose.Schema({
-  station_Name: {
+  stationName: {
     type: String,
     require,
   },
-  number_station: {
+  stationNumber: {
     type: Number,
     require,
   },
