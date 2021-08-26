@@ -146,7 +146,21 @@ export const getTime = async (req: Request, res: Response) => {
         },
       },
     ]);
+    const lineNum = await BusesModel.aggregate([
+      {
+        $project: {
+          lineNumber: '$lineNumber',
+        },
+      },
+    ]);
+    const num: number[] = [];
+    lineNum.forEach((doc) => {
+      num.push(doc.lineNumber);
+    });
 
+    if (!num.includes(numberLine)) {
+      return res.send('The line number does not exist');
+    }
     const Station1: number = getDistans[numberStation1];
     const Station2: number = getDistans[numberStation2];
 
@@ -179,3 +193,37 @@ export const getTime = async (req: Request, res: Response) => {
     return res.send(err);
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+// const stationsNum = await BusesModel.aggregate([
+//   {
+//     $match: {
+//       lineNumber: numberLine,
+//     },
+//   },
+//   {
+//     $project: {
+//       stationsList: '$stationsList',
+//     },
+//   },
+//   {
+//     $unwind: {
+//       path: '$stationsList',
+//     },
+//   },
+// ]);
+// const stations: number[] = [];
+// stationsNum.forEach((doc) => {
+//   stations.push(doc.path);
+// });
+
+// console.log(stations);
