@@ -69,30 +69,31 @@ export const update = async (req: Request, res: Response) => {
     num.push(doc.line_number);
   });
 
-  const filter = { line_number: req.params.line_number };
-
-  let update_bus: IBus = await BusesModel.findOne(filter);
-  console.log(update_bus);
-  const update = {
+  const filter1 ={line_number:req.params.line_number};
+  const filter:string[] = Object.values(filter1);
+  const chc= req.body.line_number;
+  
+  
+  if (!num.includes(chc)||filter==chc) {
+    try {
+      const Updated:IBus = await BusesModel.updateOne({line_number: req.body.line_number},
+   {
     model: req.body.model,
     line_number: req.body.line_number,
     bus_color: req.body.bus_color,
     speed: req.body.speed,
-  };
-  const chc: any = req.body.line_number;
-  if (!num.includes(chc)) {
-    try {
-      const Updated = (update_bus = await BusesModel.updateOne(update));
-      console.log(Updated);
+  });
+console.log(Updated);
 
       return res.send('successfully updated');
     } catch (err) {
       return err;
     }
-  } else {
+  } else{
     return res.send('This line number exists Try another number');
   }
 };
+
 
 export const Delete = async (req: Request, res: Response) => {
   try {

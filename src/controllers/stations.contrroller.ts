@@ -7,22 +7,22 @@ export const postStation = async (req: Request, res: Response) => {
   const station_num = await StationsModel.aggregate([
     {
       $project: {
-        number_station: '$number_station',
+        stationNumber: '$stationNumber',
       },
     },
   ]);
   const num: number[] = [];
   station_num.forEach((doc) => {
-    num.push(doc.line_number);
+    num.push(doc.stationNumber);
   });
 
   const station = new StationsModel({
-    stationName: req.body.station_Name,
-    stationNumber: req.body.number_station,
+    stationName: req.body.stationName,
+    stationNumber: req.body.stationNumber,
     position_X: req.body.position_X,
     position_Y: req.body.position_Y,
   });
-  const chck: any = req.body.number_station;
+  const chck: number = req.body.stationNumber;
   if (!num.includes(chck)) {
     try {
       const newStation = await station.save();
@@ -38,7 +38,7 @@ export const postStation = async (req: Request, res: Response) => {
 export const getOne = async (req: Request, res: Response) => {
   try {
     const readStation: IStation = await StationsModel.findOne({
-      number_station: req.params.number_station,
+      stationNumber: req.params.stationNumber,
     });
     return res.send(readStation);
   } catch (err) {
@@ -59,35 +59,36 @@ export const update = async (req: Request, res: Response) => {
   const station_num = await StationsModel.aggregate([
     {
       $project: {
-        number_station: '$number_station',
+        stationNumber: '$stationNumber',
       },
     },
   ]);
   const num: number[] = [];
   station_num.forEach((doc) => {
-    num.push(doc.line_number);
+    num.push(doc.stationNumber);
   });
-
-  const filter = { number_station: req.params.number_station };
-
-  let update_station: IStation = await StationsModel.updateOne(filter);
-  console.log(update_station);
-  const a = {
-    stationName: req.body.station_Name,
-    stationNumber: req.body.number_station,
+  const filter1 ={stationNumber:req.params.stationNumber};
+  const filter:string[] = Object.values(filter1);
+  const chc= req.body.stationNumber;
+  
+  
+  if (!num.includes(chc)||filter==chc) {
+    try {
+      const Updated:IStation = await StationsModel.updateOne({stationNumber:req.params.stationNumber},
+   {
+    stationName: req.body.stationName,
+    stationNumber: req.body.stationNumber,
     position_X: req.body.position_X,
     position_Y: req.body.position_Y,
-  };
-  const chck: any = req.body.number_station;
-  if (!num.includes(chck)){
-    try {
-      const Updated = (update_station = await StationsModel.findOne(a));
-      return res.send(Updated);
+  });
+console.log(Updated);
+
+      return res.send('successfully updated');
     } catch (err) {
       return err;
     }
-  } else {
-    return res.send('The station number exists');
+  } else{
+    return res.send('This station number exists Try another number');
   }
 };
 

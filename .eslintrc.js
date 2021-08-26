@@ -5,12 +5,19 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
-  extends: ['airbnb-base', 'prettier'],
+  extends: [
+    'airbnb-base',
+    'prettier',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module',
   },
+  plugins: ['@typescript-eslint', 'prettier'],
   settings: {
     'import/resolver': {
       node: {
@@ -18,7 +25,6 @@ module.exports = {
       },
     },
   },
-  plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': [
       1,
@@ -26,11 +32,15 @@ module.exports = {
         trailingComma: 'es5',
         singleQuote: true,
         semi: true,
-        'no-plusplus': 'off',
+        endOfLine: 'auto',
+        importnoextraneousdependencies: ['error', { devDependencies: true }],
       },
     ],
-    camelcase: 'off',
+    'import/extensions': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
     'no-console': 0,
-    "ignoreNonDeclaration": true,
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
   },
 };
