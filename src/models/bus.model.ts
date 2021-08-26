@@ -1,13 +1,13 @@
-
+// eslint-disable-next-line import/no-extraneous-dependencies
 import mongoose from 'mongoose';
 
 const busesSchema = new mongoose.Schema(
   {
-    line_number: {
+    lineNumber: {
       type: Number,
       require: true,
     },
-    bus_color: {
+    busColor: {
       type: String,
       require: true,
     },
@@ -31,4 +31,5 @@ const busesSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
+// eslint-disable-next-line import/prefer-default-export
 export const BusesModel = mongoose.model('buses', busesSchema);

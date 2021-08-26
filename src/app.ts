@@ -1,10 +1,10 @@
-
+// eslint-disable-next-line import/no-extraneous-dependencies
 import mongoose from 'mongoose';
 import express from 'express';
 import Buses from './routes/bus.router';
 import Stations from './routes/stations.router';
-require('dotenv').config();
 
+require('dotenv').config();
 
 const app = express();
 

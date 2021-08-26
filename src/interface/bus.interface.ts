@@ -1,6 +1,6 @@
 export interface IBus {
-  line_number: Number;
-  bus_color: String;
+  lineNumber: Number;
+  busColor: String;
   speed: Number;
   getDistans: Number | String;
   stationsList: Number[];

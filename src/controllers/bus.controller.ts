@@ -1,29 +1,29 @@
-
+/* eslint-disable prefer-destructuring */
 import { Request, Response } from 'express';
 import { BusesModel } from '../models/bus.model';
 import { IBus } from '../interface/bus.interface';
 
 export const postBus = async (req: Request, res: Response) => {
-  const line_num = await BusesModel.aggregate([
+  const lineNum = await BusesModel.aggregate([
     {
       $project: {
-        line_number: '$line_number',
+        lineNumber: '$lineNumber',
       },
     },
   ]);
   const num: number[] = [];
-  line_num.forEach((doc) => {
-    num.push(doc.line_number);
+  lineNum.forEach((doc) => {
+    num.push(doc.lineNumber);
   });
 
   const bus = new BusesModel({
-    line_number: req.body.line_number,
-    bus_color: req.body.bus_color,
+    lineNumber: req.body.lineNumber,
+    busColor: req.body.busColor,
     model: req.body.model,
     speed: req.body.speed,
     stationsList: req.body.stationsList,
   });
-  const chck: any = req.body.line_number;
+  const chck: number = req.body.lineNumber;
   if (!num.includes(chck)) {
     try {
       const newBus = await bus.save();
@@ -39,7 +39,7 @@ export const postBus = async (req: Request, res: Response) => {
 export const getOne = async (req: Request, res: Response) => {
   try {
     const readBus: IBus = await BusesModel.findOne({
-      bus_color: req.params.bus_color,
+      busColor: req.params.busColor,
     });
     return res.send(readBus);
   } catch (err) {
@@ -47,7 +47,7 @@ export const getOne = async (req: Request, res: Response) => {
   }
 };
 
-export const getAll = async (res: Response) => {
+export const getAll = async (_req: Request, res: Response) => {
   try {
     const readBuses: IBus = await BusesModel.find();
     return res.send(readBuses);
@@ -57,48 +57,49 @@ export const getAll = async (res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
-  const line_num = await BusesModel.aggregate([
+  const lineNum = await BusesModel.aggregate([
     {
       $project: {
-        line_number: '$line_number',
+        lineNumber: '$lineNumber',
       },
     },
   ]);
   const num: number[] = [];
-  line_num.forEach((doc) => {
-    num.push(doc.line_number);
+  lineNum.forEach((doc) => {
+    num.push(doc.lineNumber);
   });
 
-  const filter1 ={line_number:req.params.line_number};
-  const filter:string[] = Object.values(filter1);
-  const chc= req.body.line_number;
-  
-  
-  if (!num.includes(chc)||filter==chc) {
+  const filter1 = { lineNumber: req.params.lineNumber };
+  const filter: string[] = Object.values(filter1);
+  const chc = req.body.lineNumber;
+
+  // eslint-disable-next-line eqeqeq
+  if (!num.includes(chc) || filter == chc) {
     try {
-      const Updated:IBus = await BusesModel.updateOne({line_number: req.body.line_number},
-   {
-    model: req.body.model,
-    line_number: req.body.line_number,
-    bus_color: req.body.bus_color,
-    speed: req.body.speed,
-  });
-console.log(Updated);
+      const Updated: IBus = await BusesModel.updateOne(
+        { lineNumber: req.body.lineNumber },
+        {
+          model: req.body.model,
+          lineNumber: req.body.lineNumber,
+          busColor: req.body.busColor,
+          speed: req.body.speed,
+        }
+      );
+      console.log(Updated);
 
       return res.send('successfully updated');
     } catch (err) {
       return err;
     }
-  } else{
+  } else {
     return res.send('This line number exists Try another number');
   }
 };
 
-
 export const Delete = async (req: Request, res: Response) => {
   try {
     const remove: IBus = await BusesModel.remove({
-      line_number: req.body.line_number,
+      lineNumber: req.params.lineNumber,
     });
     return res.send(remove);
   } catch (err) {
@@ -107,22 +108,28 @@ export const Delete = async (req: Request, res: Response) => {
 };
 
 export const getTime = async (req: Request, res: Response) => {
-  const numberLine: number = parseInt(req.query.numberLine as string);
-  const numberStation1: number = parseInt(req.query.numberStation1 as string);
-  const numberStation2: number = parseInt(req.query.numberStation2 as string);
+  const numberLine: number = parseInt(req.query.numberLine as string, 10);
+  const numberStation1: number = parseInt(
+    req.query.numberStation1 as string,
+    10
+  );
+  const numberStation2: number = parseInt(
+    req.query.numberStation2 as string,
+    10
+  );
 
   try {
     const getDistans = await BusesModel.aggregate([
       {
         $match: {
-          line_number: numberLine,
+          lineNumber: numberLine,
         },
       },
       {
         $lookup: {
           from: 'stations',
           localField: 'stationsList',
-          foreignField: 'number_station',
+          foreignField: 'stationNumber',
           as: 'stations',
         },
       },
@@ -133,8 +140,8 @@ export const getTime = async (req: Request, res: Response) => {
       },
       {
         $project: {
-          'localStation-x': '$stations.position_X',
-          'localStation-y': '$stations.position_Y',
+          'localStation-x': '$stations.positionX',
+          'localStation-y': '$stations.positionY',
           speed: '$speed',
         },
       },
@@ -146,34 +153,29 @@ export const getTime = async (req: Request, res: Response) => {
     const numbers1: number[] = Object.values(Station1);
     const numbers2: number[] = Object.values(Station2);
 
-    let station_x1: number;
-    station_x1 = numbers1[1];
-    let station_x2: number;
-    station_x2 = numbers2[1];
+    const stationx1: number = numbers1[1];
+    const stationx2: number = numbers2[1];
 
-    const Station_X: number[] = [];
-    Station_X.push(station_x1, station_x2);
+    const StationX: number[] = [];
+    StationX.push(stationx1, stationx2);
 
-    let station_y1: number;
-    station_y1 = numbers1[2];
-    let station_y2: number;
-    station_y2 = numbers2[2];
+    const stationy1: number = numbers1[2];
+    const stationy2: number = numbers2[2];
 
-    const Station_Y: number[] = [];
-    Station_Y.push(station_y1, station_y2);
+    const StationY: number[] = [];
+    StationY.push(stationy1, stationy2);
 
     const speed: number[] = Object.values(Station1);
-    let Speed: number;
-    Speed = speed[3];
+    const Speed: number = speed[3];
 
-    const mathX = Station_X[0] - Station_X[1];
-    const mathY = Station_Y[0] - Station_Y[1];
+    const mathX = StationX[0] - StationX[1];
+    const mathY = StationY[0] - StationY[1];
     const distance = Math.sqrt(mathX * mathX + mathY * mathY);
     const time = distance / Speed;
     return res.send(
       `The distance between the stations is: ${distance} km, and Travel time is: ${time} hr.`
     );
   } catch (err) {
-    return res.send('The line or station does not exist');
+    return res.send(err);
   }
 };
