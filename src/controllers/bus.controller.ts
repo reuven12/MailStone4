@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable prefer-destructuring */
 import { Request, Response } from 'express';
 import { BusesModel } from '../models/bus.model';
@@ -108,6 +109,9 @@ export const Delete = async (req: Request, res: Response) => {
 };
 
 export const getTime = async (req: Request, res: Response) => {
+  // let Station1: number = 0;
+  // let Station2: number = 0;
+
   const numberLine: number = parseInt(req.query.numberLine as string, 10);
   const numberStation1: number = parseInt(
     req.query.numberStation1 as string,
@@ -119,7 +123,7 @@ export const getTime = async (req: Request, res: Response) => {
   );
 
   try {
-    const getDistans = await BusesModel.aggregate([
+    const getDatails1 = await BusesModel.aggregate([
       {
         $match: {
           lineNumber: numberLine,
@@ -140,90 +144,95 @@ export const getTime = async (req: Request, res: Response) => {
       },
       {
         $project: {
-          'localStation-x': '$stations.positionX',
-          'localStation-y': '$stations.positionY',
+          stationsNumber: '$stations.stationNumber',
+          localStationX: '$stations.positionX',
+          localStationY: '$stations.positionY',
           speed: '$speed',
-        },
-      },
-    ]);
-    const lineNum = await BusesModel.aggregate([
-      {
-        $project: {
           lineNumber: '$lineNumber',
         },
       },
+      {
+        $match: {
+          stationsNumber: numberStation1,
+        },
+      },
     ]);
+
+    const getDatails2 = await BusesModel.aggregate([
+      {
+        $match: {
+          lineNumber: numberLine,
+        },
+      },
+      {
+        $lookup: {
+          from: 'stations',
+          localField: 'stationsList',
+          foreignField: 'stationNumber',
+          as: 'stations',
+        },
+      },
+      {
+        $unwind: {
+          path: '$stations',
+        },
+      },
+      {
+        $project: {
+          stationsNumber: '$stations.stationNumber',
+          localStationX: '$stations.positionX',
+          localStationY: '$stations.positionY',
+          speed: '$speed',
+          lineNumber: '$lineNumber',
+        },
+      },
+      {
+        $match: {
+          stationsNumber: numberStation2,
+        },
+      },
+    ]);
+
     const num: number[] = [];
-    lineNum.forEach((doc) => {
+    const numStation: number[] = [];
+    const positionx: number[] = [];
+    const positiony: number[] = [];
+    const speed: number[] = [];
+
+    getDatails1.forEach((doc) => {
+      numStation.push(doc.stationsNumber);
       num.push(doc.lineNumber);
+      positionx.push(doc.localStationX);
+      positiony.push(doc.localStationY);
+      speed.push(doc.speed);
+    });
+
+    getDatails2.forEach((doc) => {
+      numStation.push(doc.stationsNumber);
+      num.push(doc.lineNumber);
+      positionx.push(doc.localStationX);
+      positiony.push(doc.localStationY);
     });
 
     if (!num.includes(numberLine)) {
-      return res.send('The line number does not exist');
+      res.send('The line number does not exist');
     }
-    const Station1: number = getDistans[numberStation1];
-    const Station2: number = getDistans[numberStation2];
+    if (!numStation.includes(numberStation1)) {
+      res.send('The station1 number does not exist');
+    }
+    if (!numStation.includes(numberStation2)) {
+      res.send('The station2 number does not exist');
+    }
 
-    const numbers1: number[] = Object.values(Station1);
-    const numbers2: number[] = Object.values(Station2);
+    const distance = Math.sqrt(
+      positionx[0] * positionx[1] + positiony[0] * positiony[1]
+    );
 
-    const stationx1: number = numbers1[1];
-    const stationx2: number = numbers2[1];
-
-    const StationX: number[] = [];
-    StationX.push(stationx1, stationx2);
-
-    const stationy1: number = numbers1[2];
-    const stationy2: number = numbers2[2];
-
-    const StationY: number[] = [];
-    StationY.push(stationy1, stationy2);
-
-    const speed: number[] = Object.values(Station1);
-    const Speed: number = speed[3];
-
-    const mathX = StationX[0] - StationX[1];
-    const mathY = StationY[0] - StationY[1];
-    const distance = Math.sqrt(mathX * mathX + mathY * mathY);
-    const time = distance / Speed;
-    return res.send(
+    const time = distance / speed[0];
+    res.send(
       `The distance between the stations is: ${distance} km, and Travel time is: ${time} hr.`
     );
   } catch (err) {
-    return res.send(err);
+    res.send(err);
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-// const stationsNum = await BusesModel.aggregate([
-//   {
-//     $match: {
-//       lineNumber: numberLine,
-//     },
-//   },
-//   {
-//     $project: {
-//       stationsList: '$stationsList',
-//     },
-//   },
-//   {
-//     $unwind: {
-//       path: '$stationsList',
-//     },
-//   },
-// ]);
-// const stations: number[] = [];
-// stationsNum.forEach((doc) => {
-//   stations.push(doc.path);
-// });
-
-// console.log(stations);
