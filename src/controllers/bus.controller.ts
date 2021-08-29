@@ -109,9 +109,6 @@ export const Delete = async (req: Request, res: Response) => {
 };
 
 export const getTime = async (req: Request, res: Response) => {
-  // let Station1: number = 0;
-  // let Station2: number = 0;
-
   const numberLine: number = parseInt(req.query.numberLine as string, 10);
   const numberStation1: number = parseInt(
     req.query.numberStation1 as string,
@@ -193,15 +190,42 @@ export const getTime = async (req: Request, res: Response) => {
       },
     ]);
 
-    const num: number[] = [];
+    const getDatailsAll = await BusesModel.aggregate([
+      {
+        $match: {
+          lineNumber: numberLine,
+        },
+      },
+      {
+        $lookup: {
+          from: 'stations',
+          localField: 'stationsList',
+          foreignField: 'stationNumber',
+          as: 'stations',
+        },
+      },
+      {
+        $unwind: {
+          path: '$stations',
+        },
+      },
+      {
+        $project: {
+          stationsNumber: '$stations.stationNumber',
+        },
+      },
+    ]);
+
+    const line: number[] = [];
     const numStation: number[] = [];
     const positionx: number[] = [];
     const positiony: number[] = [];
     const speed: number[] = [];
+    const allStations: number[] = [];
 
     getDatails1.forEach((doc) => {
       numStation.push(doc.stationsNumber);
-      num.push(doc.lineNumber);
+      line.push(doc.lineNumber);
       positionx.push(doc.localStationX);
       positiony.push(doc.localStationY);
       speed.push(doc.speed);
@@ -209,19 +233,27 @@ export const getTime = async (req: Request, res: Response) => {
 
     getDatails2.forEach((doc) => {
       numStation.push(doc.stationsNumber);
-      num.push(doc.lineNumber);
+      line.push(doc.lineNumber);
       positionx.push(doc.localStationX);
       positiony.push(doc.localStationY);
     });
 
-    if (!num.includes(numberLine)) {
+    getDatailsAll.forEach((doc) => {
+      allStations.push(doc.stationsNumber);
+    });
+
+    if (!line.includes(numberLine)) {
       res.send('The line number does not exist');
     }
     if (!numStation.includes(numberStation1)) {
-      res.send('The station1 number does not exist');
+      res.send(
+        `Station number ${numberStation1} does not exist for line ${numberLine}, the stations of line ${numberLine} are: ${allStations}`
+      );
     }
     if (!numStation.includes(numberStation2)) {
-      res.send('The station2 number does not exist');
+      res.send(
+        `Station number ${numberStation2} does not exist for line ${numberLine}, the stations of line ${numberLine} are: ${allStations}`
+      );
     }
 
     const distance = Math.sqrt(
