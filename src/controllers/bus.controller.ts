@@ -109,13 +109,13 @@ export const Delete = async (req: Request, res: Response) => {
 };
 
 export const getTime = async (req: Request, res: Response) => {
-  const numberLine: number = parseInt(req.query.numberLine as string, 10);
+  const numberLine: number = parseInt(req.body.numberLine as string, 10);
   const numberStation1: number = parseInt(
-    req.query.numberStation1 as string,
+    req.body.numberStation1 as string,
     10
   );
   const numberStation2: number = parseInt(
-    req.query.numberStation2 as string,
+    req.body.numberStation2 as string,
     10
   );
 

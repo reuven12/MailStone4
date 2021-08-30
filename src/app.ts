@@ -18,8 +18,8 @@ db.on('error', (error: Error) => console.error(error));
 db.once('open', () => console.log('connect'));
 
 app.use(express.json());
-app.use('/stations', Stations);
-app.use('/buses', Buses);
+app.use('/api/stations', Stations);
+app.use('/api/buses', Buses);
 
 const port = process.env.PORT;
 app.listen(port);

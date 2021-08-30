@@ -1,5 +1,5 @@
 {
-  "name": "milestone3",
+  "name": "mailestone4",
   "version": "1.0.0",
   "description": "",
   "main": "dist/app",
@@ -24,6 +24,7 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
+    "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
