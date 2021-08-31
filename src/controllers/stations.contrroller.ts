@@ -66,12 +66,10 @@ export const update = async (req: Request, res: Response) => {
   stationNum.forEach((doc) => {
     num.push(doc.stationNumber);
   });
-  const filter1 = { stationNumber: req.params.stationNumber };
-  const filter: string[] = Object.values(filter1);
-  const chc = req.body.stationNumber;
+  const filter: number = parseInt(req.params.stationNumber, 10);
+  const chcecker = req.body.stationNumber;
 
-  // eslint-disable-next-line eqeqeq
-  if (!num.includes(chc) || filter == chc) {
+  if (!num.includes(chcecker) || filter === chcecker) {
     try {
       const Updated: IStation = await StationsModel.updateOne(
         { stationNumber: req.params.stationNumber },

@@ -70,12 +70,9 @@ export const update = async (req: Request, res: Response) => {
     num.push(doc.lineNumber);
   });
 
-  const filter1 = { lineNumber: req.params.lineNumber };
-  const filter: string[] = Object.values(filter1);
-  const chc = req.body.lineNumber;
-
-  // eslint-disable-next-line eqeqeq
-  if (!num.includes(chc) || filter == chc) {
+  const filter: number = parseInt(req.params.lineNumber, 10);
+  const chcecker = req.body.lineNumber;
+  if (!num.includes(chcecker) || filter === chcecker) {
     try {
       const Updated: IBus = await BusesModel.updateOne(
         { lineNumber: req.body.lineNumber },
