@@ -8,7 +8,11 @@ require('dotenv').config();
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/MongoTasck', {
+const port = process.env.PORT;
+const mongoip = process.env.MONGOIP;
+const mongoport = process.env.MONGOPORT;
+
+mongoose.connect(`mongodb://${mongoip}:${mongoport}/MongoTasck`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -21,5 +25,4 @@ app.use(express.json());
 app.use('/api/stations', Stations);
 app.use('/api/buses', Buses);
 
-const port = process.env.PORT;
 app.listen(port);
