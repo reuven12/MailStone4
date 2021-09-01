@@ -11,8 +11,9 @@ const app = express();
 const port = process.env.PORT;
 const mongoip = process.env.MONGOIP;
 const mongoport = process.env.MONGOPORT;
+const dataBase = process.env.DATABASE;
 
-mongoose.connect(`mongodb://${mongoip}:${mongoport}/MongoTasck`, {
+mongoose.connect(`mongodb://${mongoip}:${mongoport}/${dataBase}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
