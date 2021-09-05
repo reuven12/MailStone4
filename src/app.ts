@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import mongoose from 'mongoose';
 import express from 'express';
 import Buses from './routes/bus.router';
@@ -13,10 +12,7 @@ const mongoip = process.env.MONGOIP;
 const mongoport = process.env.MONGOPORT;
 const dataBase = process.env.DATABASE;
 
-mongoose.connect(`mongodb://${mongoip}:${mongoport}/${dataBase}`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(`mongodb://${mongoip}:${mongoport}/${dataBase}`, {});
 
 const db = mongoose.connection;
 db.on('error', (error: Error) => console.error(error));

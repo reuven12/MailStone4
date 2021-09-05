@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import mongoose from 'mongoose';
 
 const busesSchema = new mongoose.Schema(
@@ -9,10 +8,6 @@ const busesSchema = new mongoose.Schema(
     },
     busColor: {
       type: String,
-      require: true,
-    },
-    model: {
-      type: Number,
       require: true,
     },
     speed: {
@@ -31,5 +26,4 @@ const busesSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-// eslint-disable-next-line import/prefer-default-export
-export const BusesModel = mongoose.model('buses', busesSchema);
+export default mongoose.model('buses', busesSchema);

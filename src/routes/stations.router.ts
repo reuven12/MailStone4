@@ -4,9 +4,9 @@ import * as stationsController from '../controllers/stations.contrroller';
 const router = express.Router();
 
 router.post('/creatStation/', stationsController.postStation);
-router.get('/readStation/:stationNumber', stationsController.getOne);
-router.get('/readStations/', stationsController.getAll);
-router.patch('/updatestation/:stationNumber', stationsController.update);
-router.delete('/delete/:stationNumber', stationsController.Delete);
+router.get('/readStation/:stationNumber', stationsController.getStation);
+router.get('/readStations/', stationsController.getStations);
+router.patch('/updatestation/:stationNumber', stationsController.editStation);
+router.delete('/delete/:stationNumber', stationsController.delStation);
 
 export default router;

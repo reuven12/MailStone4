@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import mongoose from 'mongoose';
 
 const StationsSchema = new mongoose.Schema({
@@ -20,5 +19,4 @@ const StationsSchema = new mongoose.Schema({
   },
 });
 
-// eslint-disable-next-line import/prefer-default-export
-export const StationsModel = mongoose.model('stations', StationsSchema);
+export default mongoose.model('stations', StationsSchema);
