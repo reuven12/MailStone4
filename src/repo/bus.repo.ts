@@ -1,5 +1,3 @@
-// import { IBus } from '../interface/bus.interface';
-
 import BusesModel from '../models/bus.model';
 
 export const postBus = async (bus) => {
@@ -37,7 +35,6 @@ export const removeBus = async (lineNumbers: number) => {
   return remove;
 };
 
-// Validation to post
 export const getAllLineNumbers = async () => {
   const lineNum = await BusesModel.aggregate([
     {

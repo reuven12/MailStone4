@@ -52,15 +52,10 @@ export const getStations = async (
     positionx.push(doc.localStationX);
     positiony.push(doc.localStationY);
   });
-  console.log(positionx);
-  console.log(positiony);
-
   const distance = Math.sqrt(
     positionx[0] * positionx[1] + positiony[0] * positiony[1]
   );
   const math = distance;
-  console.log(distance);
-
   return math;
 };
 
@@ -70,8 +65,6 @@ export const Speed = async (numberLine: number) => {
   getSpeed.forEach((doc) => {
     speed.push(doc.speed);
   });
-  console.log(speed);
-
   return speed;
 };
 

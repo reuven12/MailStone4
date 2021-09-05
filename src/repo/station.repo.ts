@@ -37,7 +37,6 @@ export const removeStation = async (stationNumber: number) => {
   return remove;
 };
 
-// Validation to post
 export const getAllStationsNumbers = async () => {
   const stationNum: IStation[] = await StationModel.aggregate([
     {
