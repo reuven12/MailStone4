@@ -11,10 +11,8 @@ export const postBus = async (req: Request, res: Response) => {
         lineNumber: req.body.lineNumber,
         busColor: req.body.busColor,
         speed: req.body.speed,
-        getDistans: req.body.getDistans,
         stationsList: req.body.stationsList,
       };
-
       const addBus = await busManagr.postBus(bus);
       res.send(addBus);
     }

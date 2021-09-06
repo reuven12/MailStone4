@@ -13,9 +13,9 @@ const busesSchema = new mongoose.Schema(
     speed: {
       type: Number,
     },
-    getDistans: {
-      type: String,
-    },
+    // getDistans: {
+    //   type: String,
+    // },
     stationsList: [
       {
         type: Number,
