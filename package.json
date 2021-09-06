@@ -1,5 +1,5 @@
 {
-  "name": "mailestone4",
+  "name": "moovit",
   "version": "1.0.0",
   "description": "",
   "main": "dist/app",
@@ -7,41 +7,23 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build-ts && node dist/app",
     "build-ts": "tsc",
-    "dev": "nodemon src/app.ts",
-    "lint": "eslint . --ext .ts"
+    "dev": "nodemon src/app.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/reuven12/MailStone4.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/reuven12/MailStone4/issues"
-  },
-  "homepage": "https://github.com/reuven12/MailStone4#readme",
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.29.1",
-    "@typescript-eslint/parser": "^4.29.1",
-    "axios": "^0.21.1",
+    "@types/mongoose": "^5.11.97",
+    "body-parser": "^1.19.0",
+    "config.ts": "^1.0.0",
     "dotenv": "^10.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.24.0",
-    "eslint-plugin-prettier": "^3.4.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "mocha": "^9.1.0",
-    "mongoose": "^6.0.4",
-    "nodemon": "^2.0.12",
-    "prettier": "^2.3.2",
-    "ts-node-dev": "^1.1.8",
-    "typescript": "^4.3.5"
+    "isprime": "^0.0.2",
+    "mongoose": "^5.13.7",
+    "prime-num": "^2.0.1",
+    "prime-number": "^1.0.2",
+    "pug": "^3.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
-    "@types/mongoose": "^5.11.97",
     "@types/node": "^16.6.1",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
@@ -58,5 +40,15 @@
     "ts-node": "^10.2.0",
     "tslint-config-airbnb": "^5.11.2",
     "typescript": "^3.9.10"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reuven12/moovit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reuven12/moovit/issues"
+  },
+  "homepage": "https://github.com/reuven12/moovit#readme"
 }
