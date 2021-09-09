@@ -47,3 +47,28 @@ export const getAllStationsNumbers = async () => {
   ]);
   return stationNum;
 };
+
+export const checkPosition = async () => {
+  const check = await StationModel.aggregate([
+    {
+      $lookup: {
+        from: 'stations',
+        localField: 'stationsList',
+        foreignField: 'stationNumber',
+        as: 'stations',
+      },
+    },
+    {
+      $unwind: {
+        path: '$stations',
+      },
+    },
+    {
+      $project: {
+        stationsX: '$stations.positionX',
+        stationsY: '$stations.positionY',
+      },
+    },
+  ]);
+  return check;
+};

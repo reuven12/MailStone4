@@ -4,8 +4,14 @@ import * as stationManagr from '../managers/station.manager';
 export const postStation = async (req: Request, res: Response) => {
   try {
     const chck: number = req.body.stationNumber;
+    const positionx: number = req.body.positionX;
+    const positiony: number = req.body.positionY;
     if (await stationManagr.validStation(chck)) {
-      res.send('This station already exists Select another station');
+      res.send(
+        'This number station already exists Select another number station'
+      );
+    } else if (await stationManagr.validPosition(positionx, positiony)) {
+      res.send('This position already exists Select another position');
     } else {
       const station = {
         stationName: req.body.stationName,
