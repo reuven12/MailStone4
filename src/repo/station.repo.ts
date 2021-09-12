@@ -30,9 +30,9 @@ export const pathStation = async (stationNumber: number, station: IStation) => {
   return edit;
 };
 
-export const removeStation = async (stationNumber: number) => {
+export const removeStation = async (stationNumbers: number) => {
   const remove = await StationModel.deleteOne({
-    studentID: stationNumber,
+    stationNumber: stationNumbers,
   });
   return remove;
 };

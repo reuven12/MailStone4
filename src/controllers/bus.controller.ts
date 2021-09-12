@@ -69,7 +69,7 @@ export const delBus = async (req: Request, res: Response) => {
   try {
     const delbus: number = parseInt(req.params.lineNumber as string, 10);
     const deleted = await busManagr.deleteBus(delbus);
-    res.status(200).send(deleted);
+    res.send(deleted);
   } catch (err) {
     res.send('error');
   }
