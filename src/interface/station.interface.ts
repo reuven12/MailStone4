@@ -1,6 +1,6 @@
-export interface IStation{
-    stationName:String,
-    numberStation:Number,
-    position_X:Number,
-    position_Y:Number
-  }
+export interface IStation {
+  stationName: String;
+  stationNumber: Number;
+  positionX: Number;
+  positionY: Number;
+}

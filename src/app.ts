@@ -1,22 +1,25 @@
 import mongoose from 'mongoose';
 import express from 'express';
-const app=express();
-import Buses from './controllers/bus.controller';
-import Stations from './controllers/stations.contrroller';
+import Buses from './routes/bus.router';
+import Stations from './routes/stations.router';
 
+require('dotenv').config();
 
-mongoose.connect('mongodb://localhost:27017/MongoTasck',
- {useNewUrlParser: true, useUnifiedTopology: true});
+const app = express();
+
+const port = process.env.PORT;
+const mongoip = process.env.MONGOIP;
+const mongoport = process.env.MONGOPORT;
+const dataBase = process.env.DATABASE;
+
+mongoose.connect(`mongodb://${mongoip}:${mongoport}/${dataBase}`, {});
 
 const db = mongoose.connection;
-db.on('error', (error:Error)=>console.error(error));
-db.once('open', ()=> console.log('connect'));
+db.on('error', (error: Error) => console.error(error));
+db.once('open', () => console.log('connect'));
 
 app.use(express.json());
-app.use('/stations',Stations);
-app.use('/buses',Buses);
+app.use('/api/stations', Stations);
+app.use('/api/buses', Buses);
 
-let port=process.env.PORT || '3005';
 app.listen(port);
-
-

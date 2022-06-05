@@ -1,27 +1,14 @@
 {
-  "name": "milestone3",
+  "name": "moovit",
   "version": "1.0.0",
   "description": "",
   "main": "dist/app",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build-ts && node dist/app",
-    "serve": "node dist/app",
     "build-ts": "tsc",
-    "dev:ts": "nodemon src/app",
-    "lint": "eslint . --ext .ts"
+    "dev": "nodemon src/app.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/reuven12/Milestone3.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/YoniZangolsaz/Milestone3/issues"
-  },
-  "homepage": "https://github.com/YoniZangolsaz/Milestone3#readme",
   "dependencies": {
     "@types/mongoose": "^5.11.97",
     "body-parser": "^1.19.0",
@@ -53,5 +40,15 @@
     "ts-node": "^10.2.0",
     "tslint-config-airbnb": "^5.11.2",
     "typescript": "^3.9.10"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reuven12/moovit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reuven12/moovit/issues"
+  },
+  "homepage": "https://github.com/reuven12/moovit#readme"
 }

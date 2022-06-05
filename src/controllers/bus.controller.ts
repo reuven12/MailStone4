@@ -1,52 +1,117 @@
-import {BusesModel} from '../models/bus.model';
-import express, {Request,Response} from 'express';
-import {IBus} from '../interface/bus.interface';
+import { Request, Response } from 'express';
+import * as busManagr from '../managers/bus.manager';
 
-
-const router=express.Router();
-
-router.post('/createBus/', async(req:Request,res:Response)=>{
-    const bus=new BusesModel({
-        line_number:req.body.line_number,
-        bus_color:req.body.bus_color,
-        model:req.body.model,
-        speed:req.body.speed,
-        List_station:req.body.List_station
-    })
-    try{
-        const newBus= await bus.save();
-        res.status(201).json(newBus);
-    }catch(err){
-        res.status(400).json({message:err.message}) 
+export const postBus = async (req: Request, res: Response) => {
+  try {
+    const chck: number = req.body.lineNumber;
+    if (await busManagr.validBus(chck)) {
+      res.send('This line already exists Select another line');
+    } else {
+      const bus = {
+        lineNumber: req.body.lineNumber,
+        busColor: req.body.busColor,
+        speed: req.body.speed,
+        stationsList: req.body.stationsList,
+      };
+      const addBus = await busManagr.postBus(bus);
+      res.send(addBus);
     }
-});
+  } catch (err) {
+    res.send('error');
+  }
+};
 
-router.get('/readBus/:line_number',async(req:Request,res:Response)=>{
-    try{
-        const readBus:IBus=await BusesModel.findOne({line_number: req.params.line_number});
-        res.send(readBus)
-    }catch(err){
-        res.status(500).json({message:err.message})
+export const getBus = async (req: Request, res: Response) => {
+  try {
+    const lineBus = req.body.lineNumber;
+    const bus = await busManagr.getBus(lineBus);
+    res.send(bus);
+  } catch (err) {
+    res.send('error');
+  }
+};
+
+export const getBuses = async (_req: Request, res: Response) => {
+  try {
+    const buses = await busManagr.getBuses();
+    res.send(buses);
+  } catch (err) {
+    res.send('error');
+  }
+};
+
+export const editBus = async (req: Request, res: Response) => {
+  try {
+    const filter: number = parseInt(req.params.lineNumber as string, 10);
+    const chcecker = req.body.lineNumber;
+    if (await busManagr.validEdit(chcecker, filter)) {
+      res.send('This line already exists Select another line ');
+    } else {
+      const updateBus: number = parseInt(req.params.lineNumber as string, 10);
+      const bus = {
+        lineNumber: req.body.lineNumber,
+        busColor: req.body.busColor,
+        speed: req.body.speed,
+        getDistans: req.body.getDistans,
+        stationsList: req.body.stationsList,
+      };
+
+      const printEdit = await busManagr.updateBus(updateBus, bus);
+
+      res.send(printEdit);
     }
-});
+  } catch (err) {
+    res.send('error');
+  }
+};
 
-router.get('/readBuses/',async(req:Request,res:Response)=>{
-    try{
-        const readBuses:IBus=await BusesModel.find();
-        res.send(readBuses)
-    }catch(err){
-        res.status(500).json({message:err.message})
+export const delBus = async (req: Request, res: Response) => {
+  try {
+    const delbus: number = parseInt(req.params.lineNumber as string, 10);
+    const deleted = await busManagr.deleteBus(delbus);
+    res.send(deleted);
+  } catch (err) {
+    res.send('error');
+  }
+};
+
+export const getTime = async (req: Request, res: Response) => {
+  try {
+    const numberLine: number = parseInt(req.body.numberLine as string, 10);
+    const numberStation1: number = parseInt(
+      req.body.numberStation1 as string,
+      10
+    );
+    const numberStation2: number = parseInt(
+      req.body.numberStation2 as string,
+      10
+    );
+    const allStations: Number[] = await busManagr.getAllStation(numberLine);
+
+    if (await busManagr.lineExists(numberLine)) {
+      res.send('The line number does not exist');
+    } else if (await busManagr.station1Exists(numberLine, numberStation1)) {
+      res.send(
+        `Station number ${numberStation1} does not exist for line ${numberLine}, the stations of line ${numberLine} are: ${allStations}`
+      );
+    } else if (await busManagr.station1Exists(numberLine, numberStation2)) {
+      res.send(
+        `Station number ${numberStation2} does not exist for line ${numberLine}, the stations of line ${numberLine} are: ${allStations}`
+      );
+    } else {
+      const distance = await busManagr.getStations(
+        numberLine,
+        numberStation1,
+        numberStation2
+      );
+      const Speed = await busManagr.Speed(numberLine);
+      const gettime = distance / Speed[0];
+
+      res.send(
+        `The distance between the stations is: ${gettime} km, and Travel time is: ${gettime} hr.`
+      );
     }
-})
-
-router.patch('/updateBus/:update',async(req:Request,res:Response)=>{
-    try{
-        const update_bus : IBus= await BusesModel.findByIdAndUpdate({line_number:49, model:1800});
-        res.send(update_bus)
-    }catch(err){
-        res.status(500).json({message:err.message})
-    }
-})
-
-
-export default router;
+  } catch (err) {
+    res.send(err);
+  }
+};
